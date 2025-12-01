@@ -1,0 +1,30 @@
+# Build artifacts
+/_build/
+/deps/
+*.ez
+
+# Generated files
+/doc/
+/.elixir_ls/
+/.fetch
+
+# Native NIF build artifacts
+/native/wrpc_nif/target/
+/priv/native/
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+/cover/
+
+# Mix lock file - not usually ignored but optional for library projects
+# mix.lock
