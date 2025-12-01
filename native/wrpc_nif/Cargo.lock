@@ -533,7 +533,6 @@ dependencies = [
 name = "wrpc_nif"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "bytes",
  "rustler",
  "tokio",

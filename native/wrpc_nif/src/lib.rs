@@ -28,8 +28,14 @@ struct TcpClientResource {
     runtime: Arc<Runtime>,
 }
 
-// Implement Send and Sync markers for the resource
-// This is safe because we use async/await properly with the runtime
+// SAFETY: TcpClientResource is safe to send between threads because:
+// 1. TcpClient<String> contains only a String address and doesn't hold any
+//    connection state - it creates new connections per invocation.
+// 2. Arc<Runtime> is already Send+Sync and provides thread-safe access to
+//    the Tokio runtime.
+// 3. All async operations are executed within the Tokio runtime's thread pool,
+//    which handles its own thread safety.
+// 4. No mutable state is shared across threads without synchronization.
 unsafe impl Send for TcpClientResource {}
 unsafe impl Sync for TcpClientResource {}
 
@@ -144,6 +150,10 @@ fn invoke<'a>(
 }
 
 /// Initialize the NIF module.
+///
+/// Note: The `#[allow(non_local_definitions)]` is needed because the
+/// `rustler::resource!` macro generates impl blocks inside this function.
+/// This is the standard pattern for Rustler resource registration.
 #[allow(non_local_definitions)]
 fn load(env: Env, _info: rustler::Term) -> bool {
     let _ = rustler::resource!(TcpClientResource, env);

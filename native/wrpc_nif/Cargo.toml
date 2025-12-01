@@ -14,4 +14,3 @@ rustler = "0.34"
 wrpc-transport = { version = "0.28", features = ["net"] }
 tokio = { version = "1", features = ["rt-multi-thread", "net", "sync", "macros"] }
 bytes = "1"
-anyhow = "1"
